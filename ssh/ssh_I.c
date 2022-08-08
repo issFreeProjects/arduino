@@ -1,6 +1,8 @@
 #include <avr/io.h>
+#include <util/delay.h>
 #include "ssh_I.h"
 #include "utils.h"
+
 
 uint8_t i, n;
 
@@ -120,6 +122,14 @@ static void sr_unset()
     else error("use set Dx, 0<x<13", 18);
 }
 
+static void sr_sleep(uint8_t sec)
+{
+    _delay_ms(sec * 1000);
+
+    res[0] = '\n';
+    memcopy(res+1, "Done\n", 8);
+}
+
 
 void sh_run()
 {
@@ -133,6 +143,10 @@ void sh_run()
         sr_set  (buff);
     else if(memcomp(buff, "unset D", 7))    // set D0-D13 = 0
         sr_unset(buff);
+    else if(memcomp(buff, "sleep1",  6))    // sleep 1000 (ms)
+        sr_sleep(1);
+    else if(memcomp(buff, "sleep2",  6))    // sleep 2000 (ms)
+        sr_sleep(2);
     else if(buff[0] != '\n' && buff[0] != '\r' && buff[0] != '\0')
             memcopy(res, "command not found.", 18);
     else    memzero(res, BUFFER_SIZE);
