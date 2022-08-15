@@ -3,7 +3,7 @@ MCU=atmega328p
 F_CPU=16000000L
 BRATE=57600
 DEV=/dev/ttyUSB0
-_OBJ=utils.o serial.o ssh_I.o ssh.o
+_OBJ=ssprintf.o utils.o serial.o ssh_I.o ssh.o
 
 
 ## you dont need to change
