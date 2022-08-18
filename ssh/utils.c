@@ -36,7 +36,7 @@ uint8_t memcomp(void* pt1, void* pt2, uint8_t n)
 }
 
 
-int8_t atoi(char* str)
+int8_t atoi(const char* str)
 {
 	int8_t result=0, i=0;
 	while(str[i]!='\0' && str[i]!='\r' && str[i]!='\n'){
