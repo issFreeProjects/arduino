@@ -134,15 +134,15 @@ static void sr_sleep(uint8_t sec)
 void sh_run()
 {
     if     (memcomp(buff, "DDR",     3))    // DDR (B,C,D)
-        sr_DDRx (buff, res);
+        sr_DDRx();
     else if(memcomp(buff, "PIN",     3))    // PIN (B,C,D)
-        sr_PINx (buff, res);
+        sr_PINx();
     else if(memcomp(buff, "PORT",    4))    // PORT(B,C,D)
-        sr_PORTx(buff, res);
+        sr_PORTx();
     else if(memcomp(buff, "set D",   5))    // set D0-D13 = 1
-        sr_set  (buff);
+        sr_set();
     else if(memcomp(buff, "unset D", 7))    // set D0-D13 = 0
-        sr_unset(buff);
+        sr_unset();
     else if(memcomp(buff, "sleep1",  6))    // sleep 1000 (ms)
         sr_sleep(1);
     else if(memcomp(buff, "sleep2",  6))    // sleep 2000 (ms)
