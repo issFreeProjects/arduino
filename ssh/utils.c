@@ -45,3 +45,20 @@ int8_t atoi(const char* str)
 	}
 	return result;
 }
+
+
+uint16_t hex2charaddr(const char* hex)
+{
+    uint8_t i;
+    uint16_t value = 0;
+    
+    if( hex[0]!='0' || hex[1]!='x')
+        return 0;
+
+    for(i=2; __valid_hex_char(hex[i]); i++){
+        value  = value << 4;
+        value += __value_of_hexchar(hex[i]);
+    }
+
+    return value;
+}
