@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <avr/io.h>
 #include <util/delay.h>
 #include "ssh_I.h"
@@ -131,6 +132,18 @@ static void sr_sleep(uint8_t sec)
 }
 
 
+void sr_read()
+{
+    char* addr;
+    char  tmp[32];
+    
+    addr = (char*)hex2charaddr(buff+5);
+
+    sprintf(tmp, "0x%x", *addr);
+    memcopy(res, tmp, 32);
+}
+
+
 void sh_run()
 {
     if     (memcomp(buff, "DDR",     3))    // DDR (B,C,D)
@@ -147,6 +160,8 @@ void sh_run()
         sr_sleep(1);
     else if(memcomp(buff, "sleep2",  6))    // sleep 2000 (ms)
         sr_sleep(2);
+    else if(memcomp(buff, "read",    4))    // read from memory
+        sr_read();
     else if(buff[0] != '\n' && buff[0] != '\r' && buff[0] != '\0')
             memcopy(res, "command not found.", 18);
     else    memzero(res, BUFFER_SIZE);
