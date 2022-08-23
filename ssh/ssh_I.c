@@ -135,12 +135,10 @@ static void sr_sleep(uint8_t sec)
 void sr_read()
 {
     char* addr;
-    char  tmp[32];
     
     addr = (char*)hex2charaddr(buff+5);
 
-    sprintf(tmp, "0x%x", *addr);
-    memcopy(res, tmp, 32);
+    sprintf(res, "0x%x", *addr);
 }
 
 
