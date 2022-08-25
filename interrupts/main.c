@@ -87,7 +87,7 @@ void init_timer1()
 
 void init_ex_hwINT0()
 {
-    // Enable INT2
+    // Enable INT0
     EICRA = 0;
 	EIMSK |= (1<<INT0);
     // The low level on the D2 pin generates
