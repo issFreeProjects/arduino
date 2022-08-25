@@ -42,29 +42,44 @@
 // delay = BTN_DELAY/C1_INTERVAL = 0.199(s).
 #define BTN_DELAY 3124
 
-uint8_t sib_c;   // speed increaser button counter
+// speed increaser button will increase it (+=1)
+// speed decreaser button will decrease it (-=1)
+int8_t c;
+// minimum and maximum of c
+int8_t c_min, c_max;
 
 
 
 ISR(TIMER1_COMPA_vect)
 {
-    // toggleing B5 (D13 port)
+    // toggle B5 (D13 port)
     PORTB ^= _BV(PORTB5);
 
-    if(sib_c*SPEED_SCALE >= C1_INTERVAL)
-        sib_c = 0;
+    if( c>c_max || c<c_min )
+        c = 0;
 
-    // increase counter1's minimum by SPEED_SCALE
-    TCNT1  = C1_MIN + sib_c*SPEED_SCALE;
+    TCNT1  = C1_MIN + c*SPEED_SCALE;
 }
 
 
 ISR(INT0_vect)
 {
     int current_tcnt1;
-
     current_tcnt1 = TCNT1;
-    sib_c++;
+
+    c++;
+
+    // about 200(ms) delay
+    while(TCNT1-current_tcnt1 < BTN_DELAY){};
+}
+
+
+ISR(INT1_vect)
+{
+    int current_tcnt1;
+    current_tcnt1 = TCNT1;
+
+    c--;
 
     // about 200(ms) delay
     while(TCNT1-current_tcnt1 < BTN_DELAY){};
@@ -96,12 +111,25 @@ void init_ex_hwINT0()
 }
 
 
+void init_ex_hwINT1()
+{
+    // Enable INT1
+    EICRA = 0;
+	EIMSK |= (1<<INT1);
+    // The low level on the D2 pin generates
+    // an interrupt.
+    MCUCR = 0;
+}
+
+
 
 int main(void)
 {
     cli();
 
-    sib_c = 0;
+    c     = 0;
+    c_min = C1_MIN*(-1)/SPEED_SCALE;
+    c_max = C1_INTERVAL/SPEED_SCALE;
 
     // make D13 (B5) as output and D* as input
     DDRB |= _BV(PORTB5);
@@ -109,8 +137,9 @@ int main(void)
 
     // initilaize timer 1 interrupt
     init_timer1();
-    // initialize hardware interrupt
+    // initialize hardware interrupt 0,1
     init_ex_hwINT0();
+    init_ex_hwINT1();
 
     sei();
 
