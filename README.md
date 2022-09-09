@@ -14,3 +14,9 @@ read arbitrary memory by read command
 Documentation about Timer, Timer Interrupt and Hardware Interrupt
 blinking led using timmer interrupt implementation 1Hz
 speed button that increases blinking speed
+
+
+### /-- charDisplay --/
+it's a simple cristal character lcd driver library
+and main file whitch uses lcd driver to display a
+Hello World message and a progress bar on the lcd
