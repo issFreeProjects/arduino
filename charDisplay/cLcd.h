@@ -50,5 +50,16 @@ void load_custom_sym(uint8_t *font, uint8_t index);
  * */
 void lcd_str(const char *str);
 
+/*  move cursot to requested position
+ *  if first 4 bits of @pos be 0 then move to first line
+ *  otherwise move to the second line
+ *
+ *  Ex:
+ *      @pos = 0x05  -->  move to line 1 and position 5
+ *      @pos = 0xF6  -->  move to line 2 and position 6
+ *
+ * */
+void lcd_goto(uint8_t pos);
+
 /* clear and go to the beginning of the first line */
 void lcd_clear_screen();

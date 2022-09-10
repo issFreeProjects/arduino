@@ -125,3 +125,12 @@ void lcd_clear_screen()
      lcd_command(0x01);
      lcd_command(0x80);
 }
+
+
+void lcd_goto(uint8_t pos)
+{
+    if( pos>>4 == 0 ) // line 1
+        lcd_command(0x80 + (pos&0x0F));
+    else              // line 2
+        lcd_command(0xC0 + (pos&0x0F));
+}
