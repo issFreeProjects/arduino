@@ -30,16 +30,16 @@
 #define FLUSH_D 1
 #define COMMAND_D 2
 #define NIBBLE_D 20
-#define INIT_D 20
+#define INIT_D 15
 
 
 /* apply changes */
 static void flush()
 {
-    _delay_us(FLUSH_D);
     EN_1;
     _delay_us(FLUSH_D);
     EN_0;
+    _delay_us(FLUSH_D);
 }
 
 
@@ -103,6 +103,9 @@ void init()
     lcd_command(0x0C);
     lcd_command(0x06);
     lcd_command(0x01);
+
+    _delay_ms(COMMAND_D);
+    lcd_command(0x80);
     _delay_ms(COMMAND_D);
 }
 
