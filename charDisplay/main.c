@@ -17,7 +17,7 @@ static uint8_t prog1[8]
 static uint8_t left_arrow[8] 
     = {0x10, 0x10, 0x14, 0x12, 0x1F, 0x02, 0x04, 0x00};
 
-void mk_progressbar(uint8_t i)  // i=0,1,2,3,4,5
+void mk_progressbar_symbols(uint8_t i)  // i=0,1,2,3,4,5
 {
     uint8_t tmp = 0;
     for(; i>0; i--)
@@ -27,18 +27,18 @@ void mk_progressbar(uint8_t i)  // i=0,1,2,3,4,5
         prog1[i] = tmp;
 }
 
-void load_custom_stuff()
+void load_custom_symbols()
 {
     // load custom fonts
     for(int i=0; i<6; i++){
-        mk_progressbar(i);
+        mk_progressbar_symbols(i);
         load_custom_sym(prog1, i);
     }
 
     load_custom_sym(left_arrow, 6);
 }
 
-void mk_percent(uint8_t per)  // per = 0,1,...,100
+void mk_progressbar(uint8_t per)  // per = 0,1,...,100
 {
     uint8_t i,j;
     i = per/10;
@@ -51,14 +51,14 @@ void mk_percent(uint8_t per)  // per = 0,1,...,100
 }
 
 
-void ad_mk_percent(uint8_t per, char *title_format, uint8_t title_len)
+void ad_mk_progressbar(uint8_t per, char *title_format, uint8_t title_len)
 {
     char buff[title_len];
 
     sprintf(buff, title_format, per);
     lcd_str(buff);
 
-    mk_percent(per);
+    mk_progressbar(per);
 }
 
 
@@ -67,7 +67,7 @@ int main()
     uint8_t p = 0;
 
     init();
-    load_custom_stuff();
+    load_custom_symbols();
     lcd_clear_screen();
 
     lcd_char(6);
@@ -78,7 +78,7 @@ int main()
     while(1)
     {
         lcd_goto(0xF0);
-        ad_mk_percent(p, "%3d%%[", 5);
+        ad_mk_progressbar(p, "%3d%%[", 5);
         p++;
 
         _delay_ms(400);
