@@ -1,6 +1,6 @@
 /*
  *      @main.c, create date: Fri 09 Sep 2022
- *      this is just a test for cLcd library
+ *      this is just a test for the cLcd library
  *      left arrow custom font and
  *      a simple progress bar are implemented
  *
