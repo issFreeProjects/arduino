@@ -26,7 +26,7 @@ main: $(OBJ) main.c
 
 
 
-flash:
+burn:
 	avrdude -p $(MCU) -c arduino -b $(BRATE) -U flash:w:$(BD)/main.hex:i -F -P $(DEV)
 
 
